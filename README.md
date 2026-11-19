@@ -1,49 +1,45 @@
-# ComputerCenterShop v1 JavaFX starter
+# ComputerCenterShop v1 JavaFX Starter
 
-Projecte inicial d'alumnat per al backlog RA2 del modul MP0486 - Acces a dades.
+Student starter project for the RA2 backlog of module MP0486 - Data Access.
 
-## Finalitat
+## Purpose
 
-Aquesta variant deriva de `ComputerCenterShop_v1_javafx`, pero no esta resolta. Compila parcialment sense JavaFX i conserva la interfície JavaFX/FXML, el model i el servei, pero deixa la capa `ProductDaoImplJDBC` amb buits controlats perquè el backlog impliqui crear o corregir codi JDBC real.
+This variant is derived from `ComputerCenterShop_v1_javafx`, but it is not fully implemented. It compiles partially (without JavaFX) and retains the JavaFX/FXML interface, the model, and the service layer; however, the `ProductDaoImplJDBC` layer contains intentional gaps, requiring students to write or fix the actual JDBC code.
 
+## Tasks for Students
 
-
-## Que ha de resoldre l'alumnat
-
-| Issue | Codi pendent |
+| Issue | Pending Code |
 | --- | --- |
-| RA2-ISSUE-02 | Implementar `connect()` amb URL, usuari i propietats de sistema. |
-| RA2-ISSUE-03 | Implementar `initSchema()` amb DDL i seed inicial. |
-| RA2-ISSUE-04 | Implementar `insertProduct()` amb `PreparedStatement`. |
-| RA2-ISSUE-05 | Implementar `updateStock()` i disponibilitat segons estoc. |
-| RA2-ISSUE-06 | Implementar `deleteProduct()` de forma controlada. |
-| RA2-ISSUE-07 | Implementar consultes, `ResultSet` i `mapProduct()`. |
-| RA2-ISSUE-08 | Revisar tancament de recursos amb `try-with-resources` i `disconnect()`. |
-| RA2-ISSUE-09 | Implementar transaccio `commit` / `rollback`. |
-| RA2-ISSUE-10 | Implementar crida amb `CallableStatement`. |
-| RA2-ISSUE-11 | Millorar gestio d'errors de connexio i operacions. |
+| RA2-ISSUE-02 | Implement `connect()` using a URL, username, and system properties. |
+| RA2-ISSUE-03 | Implement `initSchema()` with DDL and initial seed data. |
+| RA2-ISSUE-04 | Implement `insertProduct()` using `PreparedStatement`. |
+| RA2-ISSUE-05 | Implement `updateStock()` and availability logic based on stock levels. |
+| RA2-ISSUE-06 | Implement `deleteProduct()` with appropriate safeguards. |
+| RA2-ISSUE-07 | Implement queries, `ResultSet` handling, and `mapProduct()`. |
+| RA2-ISSUE-08 | Ensure proper resource closure using `try-with-resources` and `disconnect()`. |
+| RA2-ISSUE-09 | Implement transaction `commit` / `rollback` logic. |
+| RA2-ISSUE-10 | Implement calls using `CallableStatement`. |
+| RA2-ISSUE-11 | Improve error handling for connections and operations. |
 
-## Execucio prevista
+## Execution Requirements
 
-Requisits:
+Prerequisites:
 
 - JDK 25 LTS.
-- Maven.
-
-Compilar:
+- Maven. Compile:
 
 ```bash
 mvn compile
 ```
 
-Executar JavaFX:
+Run JavaFX:
 
 ```bash
 mvn javafx:run
 ```
 
-En l'estat inicial, l'aplicacio pot mostrar errors `RA2-ISSUE-xx pendent`. Aquests errors son intencionats i indiquen quin issue s'ha de resoldre.
+In the initial state, the application may display `RA2-ISSUE-xx pending` errors. These errors are intentional and indicate which issue needs to be resolved.
 
-## Limits RA2
+## RA2 Constraints
 
-No s'ha d'introduir ORM, Hibernate, ObjectDB, MongoDB, serveis externs, persistencia principal en fitxers ni components reutilitzables de RA6.
+You must not introduce ORM, Hibernate, ObjectDB, MongoDB, external services, primary file-based persistence, or reusable components from RA6.
