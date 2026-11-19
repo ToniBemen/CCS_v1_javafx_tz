@@ -7,3 +7,4 @@ public interface Payable {
 	public boolean pay(Amount amount);
 
 }
+  
