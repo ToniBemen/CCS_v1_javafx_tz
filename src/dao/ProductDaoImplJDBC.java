@@ -1,11 +1,13 @@
 package dao;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
+import java.sql.Statement;
 
 import model.Product;
 
@@ -21,8 +23,9 @@ public class ProductDaoImplJDBC implements ProductDao {
 		String url = System.getProperty("computercenter.db.url", DEFAULT_DB_URL);
 		String user = System.getProperty("computercenter.db.user", DEFAULT_USER);
 		String password = System.getProperty("computercenter.db.password", DEFAULT_PASSWORD);
-		
-		conn = DriverManager.getConnection(DEFAULT_DB_URL, DEFAULT_USER, DEFAULT_PASSWORD);
+
+		conn = DriverManager.getConnection(url, user, password);
+	
 
 		// TODO RA2-ISSUE-02: obrir la connexio amb DriverManager i guardar-la a conn.
 		// Pista: usa url, user i password, i comprova com es declara el connector al pom.xml.
@@ -36,11 +39,54 @@ public class ProductDaoImplJDBC implements ProductDao {
 		}
 	}
 
+
+	// TODO RA2-ISSUE-03: crear products, inventory_history i l'alias STOCK_ALERT_LIMIT.
+			// Pista: resol-ho amb Statement i try-with-resources, i afegeix seed inicial si la taula es buida.
 	@Override
 	public void initSchema() throws SQLException {
-		// TODO RA2-ISSUE-03: crear products, inventory_history i l'alias STOCK_ALERT_LIMIT.
-		// Pista: resol-ho amb Statement i try-with-resources, i afegeix seed inicial si la taula es buida.
-		throw pending("RA2-ISSUE-03 pendent: implementa DDL i inicialitzacio de l'esquema.");
+		Connection connection = requireConnection();
+
+		String createProductsSql = """
+				CREATE TABLE IF NOT EXISTS products (
+					id INT AUTO_INCREMENT PRIMARY KEY,
+					name VARCHAR(120) NOT NULL UNIQUE,
+					wholesaler_price DECIMAL(10, 2) NOT NULL,
+					available BOOLEAN NOT NULL DEFAULT TRUE,
+					stock INT NOT NULL DEFAULT 0
+				)
+				""";
+
+		String createInventoryHistorySql = """
+				CREATE TABLE IF NOT EXISTS inventory_history (
+					id INT AUTO_INCREMENT PRIMARY KEY,
+					product_id INT NOT NULL,
+					change_amount INT NOT NULL,
+					reason VARCHAR(255),
+					created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+					CONSTRAINT fk_inventory_product FOREIGN KEY (product_id) REFERENCES products(id)
+				)
+				""";
+
+		String createStockAlertAliasSql = """
+				CREATE ALIAS IF NOT EXISTS STOCK_ALERT_LIMIT FOR "dao.ProductDaoImplJDBC.stockAlertLimit"
+				""";
+
+		try (Statement stmt = connection.createStatement()) {
+			stmt.execute(createProductsSql);
+			stmt.execute(createInventoryHistorySql);
+			stmt.execute(createStockAlertAliasSql);
+
+			try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM products")) {
+				if (rs.next() && rs.getInt(1) == 0) {
+					stmt.executeUpdate("""
+							INSERT INTO products (name, wholesaler_price, available, stock) VALUES
+								('Laptop Ryzen 5', 520.00, TRUE, 10),
+								('Mechanical Keyboard', 45.00, TRUE, 3),
+								('USB-C Hub 7-in-1', 22.50, TRUE, 15)
+							""");
+				}
+			}
+		}
 	}
 
 	@Override
