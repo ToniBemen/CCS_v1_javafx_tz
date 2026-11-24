@@ -53,7 +53,7 @@ public class ProductDaoImplJDBC implements ProductDao {
 					wholesaler_price DECIMAL(10, 2) NOT NULL,
 					available BOOLEAN NOT NULL DEFAULT TRUE,
 					stock INT NOT NULL DEFAULT 0
-				)
+				)//
 				""";
 
 		String createInventoryHistorySql = """
