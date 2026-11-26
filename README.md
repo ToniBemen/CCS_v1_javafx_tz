@@ -133,18 +133,18 @@ Dupliqueu aquest bloc per a cada *issue* que completeu. Escriviu amb les vostres
 - Explicació individual: **[El mètode updateStock ens permet actualitzar l'estoc dels productes de la base de dades]**
 - Ús d'IA, si n'hi ha hagut: **[La consulta realitzada a la IA ha estat per poder obrir H2 desde un buscador fent connexió amb la CMD]**
 
-### RA2-ISSUE-XX · [títol de l'*issue*]
+### RA2-ISSUE-06 · [Implementar eliminacio controlada]
 
 - Estat: **comprovat**
-- Persona que l'ha iniciat: **[nom]**
-- Problema inicial: **[què no funcionava o què faltava]**
-- Decisió aplicada: **[què heu decidit fer i per què]**
-- Canvis fets: **[fitxers o parts del projecte modificades]**
-- Prova realitzada: **[cas que heu provat i resultat observat]**
-- Evidència: **[enllaç a captura, registre, vídeo breu o apartat del repositori]**
-- *Commit* o *pull request*: **[enllaç o identificador]**
-- Explicació individual: **[què pot explicar cada integrant sobre aquesta tasca]**
-- Ús d'IA, si n'hi ha hagut: **[consulta feta, ajuda rebuda i comprovació pròpia]**
+- Persona que l'ha iniciat: **[Toni]**
+- Problema inicial: **[Faltava poder eliminar un producte pel nom i informi del resultat]**
+- Decisió aplicada: **[Completar el mètode deleteProduct afegint que no pugui eliminar productes linkejats a un historial]**
+- Canvis fets: **[ProductDaoImplJDBC.java modificat]**
+- Prova realitzada: **[He provat a eliminar un producte qualsevol, i després un que estigués linkejat a l'historial]**
+- Evidència: **[https://github.com/ToniBemen/CCS_v1_javafx_tz/issues/6#issuecomment-7199639331]**
+- *Commit* o *pull request*: **[Commit]**
+- Explicació individual: **[El mètode deleteProduct ens permet eliminar productes, però és importat posar límits (en aquest cas historial) per no eliminar productes per error]**
+- Ús d'IA, si n'hi ha hagut: **[La consulta realitzada a la IA ha estat per poder obrir H2 desde un buscador fent connexió amb la CMD, i també per poder linkejar un producte a l'historial]**
 
 ### RA2-ISSUE-XX · [títol de l'*issue*]
 

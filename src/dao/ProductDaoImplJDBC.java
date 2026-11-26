@@ -125,11 +125,25 @@ public class ProductDaoImplJDBC implements ProductDao {
 		}
 	}
 
+
 	@Override
 	public int deleteProduct(String name) throws SQLException {
-		// TODO RA2-ISSUE-06: eliminar per nom i comprovar files afectades.
-		throw pending("RA2-ISSUE-06 pendent: implementa eliminacio controlada.");
+		String sql = "DELETE FROM products WHERE name = ?";
+
+		try (PreparedStatement pstmt = requireConnection().prepareStatement(sql)) {
+        pstmt.setString(1, name);
+
+        	try {
+        		return pstmt.executeUpdate();
+        	} catch (SQLException e) {
+        		if (e.getErrorCode() == 23503) {
+        			throw new SQLException("No es pot eliminar el producte '" + name + "' perquè té historial associat.", e);
+        		}
+            throw e;
+        	}
+		}
 	}
+
 
 	@Override
 	public void registerStockChange(String name, int unitsToAdd) throws SQLException {
