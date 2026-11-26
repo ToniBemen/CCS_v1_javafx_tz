@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 import model.Product;
 
@@ -25,10 +26,6 @@ public class ProductDaoImplJDBC implements ProductDao {
 		String password = System.getProperty("computercenter.db.password", DEFAULT_PASSWORD);
 
 		conn = DriverManager.getConnection(url, user, password);
-	
-
-		// TODO RA2-ISSUE-02: obrir la connexio amb DriverManager i guardar-la a conn.
-		// Pista: usa url, user i password, i comprova com es declara el connector al pom.xml.
 		
 	}
 
@@ -103,14 +100,29 @@ public class ProductDaoImplJDBC implements ProductDao {
 
 	@Override
 	public int insertProduct(Product product) throws SQLException {
-		// TODO RA2-ISSUE-04: inserir name, wholesaler_price, available i stock amb PreparedStatement.
-		throw pending("RA2-ISSUE-04 pendent: implementa insercio amb PreparedStatement.");
+		String sql = "INSERT INTO products (name, wholesaler_price, available, stock) VALUES (?, ?, ?, ?)";
+		
+		try (PreparedStatement pstmt = requireConnection().prepareStatement(sql)) {
+			pstmt.setString(1,  product.getName());
+			pstmt.setDouble(2,  product.getWholesalerPrice().getValue());
+			pstmt.setBoolean(3,  product.isAvailable());
+			pstmt.setInt(4,  product.getStock());
+			
+			return pstmt.executeUpdate();
+		}
 	}
 
 	@Override
 	public int updateStock(String name, int newStock) throws SQLException {
-		// TODO RA2-ISSUE-05: actualitzar stock i available segons newStock amb PreparedStatement.
-		throw pending("RA2-ISSUE-05 pendent: implementa actualitzacio d'estoc.");
+		String sql = "UPDATE products SET stock = ?, available = ?, WHERE name = ?";
+		
+		try (PreparedStatement pstmt = requireConnection().prepareStatement(sql)) {
+			pstmt.setInt(1, newStock);
+			pstmt.setBoolean(2, newStock > 0);
+			pstmt.setString(3,  name);
+			
+			return pstmt.executeUpdate();
+		}
 	}
 
 	@Override
